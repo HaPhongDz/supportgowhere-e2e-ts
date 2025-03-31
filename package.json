@@ -1,0 +1,30 @@
+{
+  "name": "supportgowhere-e2e",
+  "version": "1.0.0",
+  "description": "Automation testing framework for SupportGoWhere using Playwright, Cucumber (BDD) with HTML Report & GitHub Actions (TypeScript version)",
+  "scripts": {
+    "test": "cucumber-js",
+    "test:report": "cucumber-js && npm run report",
+    "test:chrome": "cross-env BROWSER=chromium cucumber-js",
+    "test:firefox": "cross-env BROWSER=firefox cucumber-js",
+    "test:webkit": "cross-env BROWSER=webkit cucumber-js",
+    "test:parallel": "cucumber-js --parallel 2",
+    "clean:reports": "rimraf reports && mkdir reports",
+    "pretest:report": "npm run clean:reports",
+    "playwright:test": "playwright test",
+    "report": "node generate-report.js",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^7.3.2",
+    "@playwright/test": "^1.51.1",
+    "@types/node": "^18.19.84",
+    "cross-env": "^7.0.3",
+    "cucumber-html-reporter": "^5.5.1",
+    "open-cli": "^7.2.0",
+    "playwright": "^1.51.1",
+    "rimraf": "^5.0.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^4.9.5"
+  }
+}
