@@ -1,0 +1,74 @@
+name: Cucumber Playwright Tests
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Clone code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # Step 4: Install Playwright Browsers
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
+      # Step 5: Build TypeScript
+      - name: Build TypeScript
+        run: npm run build
+
+      # Step 6: Run Cucumber Tests
+      - name: Run Cucumber Tests
+        run: npm run test
+
+      # Step 7: Generate HTML Report
+      - name: Generate HTML Report
+        run: npm run test:report
+
+      # Step 8: Upload Cucumber HTML Report
+      - name: Upload Cucumber HTML Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cucumber-html-report
+          path: cucumber-report.html
+
+      # Step 9: Upload Screenshots on Failure
+      - name: Upload Screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: test-screenshots
+          path: |
+            error-*.png
+            error-click-*.png
+            error-wait-visible-*.png
+            error-get-text-*.png
+            error-amount-*.png
+            error-tab-click-*.png
+
+      # Step 10: Notify on Failure
+      - name: Notify on Failure
+        if: failure()
+        run: |
+          echo "::error::Tests failed! Check the artifacts for details."
+          exit 1 

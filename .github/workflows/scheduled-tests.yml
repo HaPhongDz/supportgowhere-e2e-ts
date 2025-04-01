@@ -1,0 +1,114 @@
+name: Scheduled Cucumber Playwright Tests
+
+on:
+  workflow_dispatch: # Allows manual triggering
+  schedule:
+    # Run every 4 hours
+    - cron: '0 */4 * * *'  # At minute 0 of every 4th hour
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # Step 4: Install Playwright Browsers
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
+      # Step 5: Build TypeScript
+      - name: Build TypeScript
+        run: npm run build
+
+      # Step 6: Run Cucumber tests and capture results
+      - name: Run Cucumber tests and capture results
+        id: run-tests
+        run: |
+          npm run test > cucumber-output.txt
+          
+          # Extract test results
+          SCENARIOS_PASSED=$(grep -oP '(?<=\s)\d+(?=\s+passed)' cucumber-output.txt || echo 0)
+          SCENARIOS_FAILED=$(grep -oP '(?<=\s)\d+(?=\s+failed)' cucumber-output.txt || echo 0)
+          
+          # Default to 0 if no results are found
+          SCENARIOS_PASSED=${SCENARIOS_PASSED:-0}
+          SCENARIOS_FAILED=${SCENARIOS_FAILED:-0}
+          
+          # Print results for debugging
+          echo "Scenarios Passed: $SCENARIOS_PASSED"
+          echo "Scenarios Failed: $SCENARIOS_FAILED"
+          
+          # Save results to GitHub environment variables
+          echo "SCENARIOS_PASSED=$SCENARIOS_PASSED" >> $GITHUB_ENV
+          echo "SCENARIOS_FAILED=$SCENARIOS_FAILED" >> $GITHUB_ENV
+        continue-on-error: true
+
+      # Step 7: Generate HTML Report
+      - name: Generate HTML Report
+        run: npm run test:report
+
+      # Step 8: Upload Cucumber HTML Report
+      - name: Upload Cucumber HTML Report
+        id: artifact-upload-step
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cucumber-html-report
+          path: cucumber-report.html
+
+      # Step 9: Set ARTIFACT_URL variable
+      - name: Set ARTIFACT_URL variable
+        run: echo "ARTIFACT_URL=${{ steps.artifact-upload-step.outputs.artifact-url }}" >> $GITHUB_ENV
+
+      # Step 10: Extract Branch Name
+      - name: Extract Branch Name
+        id: extract-branch
+        run: echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
+
+      # Step 11: Send Notification to Teams
+      - name: Send Notification to Teams
+        env:
+          TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          SCENARIOS_PASSED: ${{ env.SCENARIOS_PASSED }}
+          SCENARIOS_FAILED: ${{ env.SCENARIOS_FAILED }}
+          ARTIFACT_URL: ${{ env.ARTIFACT_URL }}
+          BRANCH_NAME: ${{ env.BRANCH_NAME }}
+        run: |
+          curl -H "Content-Type: application/json" -d "{
+          \"@type\": \"MessageCard\",
+          \"@context\": \"http://schema.org/extensions\",
+          \"summary\": \"🎯 SupportGoWhere E2E Test Results\",
+          \"themeColor\": \"0076D7\",
+          \"title\": \"🎯 SupportGoWhere E2E Test Results\",
+          \"sections\": [{
+              \"activityTitle\": \"Branch: **$BRANCH_NAME**\",
+              \"facts\": [
+                  {\"name\": \"✅ Passed:\", \"value\": \"<span style='color:green;'>$SCENARIOS_PASSED</span>\"},
+                  {\"name\": \"❌ Failed:\", \"value\": \"<span style='color:red;'>$SCENARIOS_FAILED</span>\"},
+                  {\"name\": \"📦 Report:\", \"value\": \"[View Report]($ARTIFACT_URL)\"},
+                  {\"name\": \"🕒 Time:\", \"value\": \"$(date -u +'%Y-%m-%d %H:%M:%S UTC')\"}
+              ],
+              \"markdown\": true
+          }],
+          \"potentialAction\": [{
+              \"@type\": \"OpenUri\",
+              \"name\": \"🔍 View Workflow Run\",
+              \"targets\": [
+                  {\"os\": \"default\", \"uri\": \"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}
+              ]
+          }]
+          }" $TEAMS_WEBHOOK_URL 

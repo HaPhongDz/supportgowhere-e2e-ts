@@ -6,6 +6,7 @@ import HomePage from '../pages/HomePage';
 import SupportCalculatorPage from '../pages/SupportCalculatorPage';
 import SupportCalculatorFormPage from '../pages/SupportCalculatorFormPage';
 import CalculatedResultPage from '../pages/CalculatedResultPage';
+import { Logger } from '../utils/Logger';
 
 let homePage: HomePage;
 let supportCalculatorPage: SupportCalculatorPage;
@@ -40,8 +41,20 @@ When('I click on the {string} button', async function (this: CustomWorld, button
   await supportCalculatorFormPage.clickShowBenefits();
 });
 
-Then('I should see a result that includes {string}', async function (this: CustomWorld, expectedResult: string) {
+Then('I should see a result for {string} that includes {string}', async function (this: CustomWorld, packageName: string, expectedAmount: string) {
+  Logger.step(`Checking ${packageName} with expected amount: ${expectedAmount}`);
   calculatedResultPage = new CalculatedResultPage(this.page!);
-  const resultText = await calculatedResultPage.getResultText();
-  await expect(resultText).toContain(expectedResult);
+
+  // Extract year from package name and click on the corresponding tab
+  if (packageName.includes('Assurance Package')) {
+    const year = packageName.replace('Assurance Package ', '');
+    await calculatedResultPage.clickYearTab(year);
+  }
+  
+  // Check if the amount matches the expected value
+  const amountText = await calculatedResultPage.getAmountForPackage(packageName);
+  expect(amountText).not.toBeNull();
+  expect(amountText).toContain(expectedAmount);
+  
+  Logger.success(`Successfully verified ${packageName} includes ${expectedAmount}`);
 });

@@ -50,15 +50,44 @@ export default class SupportCalculatorFormPage {
     );
   }
 
-  private async waitForVisible(selector: string, timeout = 10000): Promise<void> {
-    try {
-      await this.page.locator(selector).waitFor({ 
-        state: 'visible',
-        timeout: timeout
-      });
-      Logger.success(`Element found and visible: ${selector}`);
-    } catch (error: any) {
-      await this.handleError(error, 'element visibility', selector);
+  // Enhanced click method with automatic delay
+  private async clickWithDelay(selector: string, delayMs = 2000): Promise<void> {
+    await this.page.locator(selector).click();
+    Logger.info(`Clicked on ${selector}, waiting ${delayMs}ms...`);
+    await this.page.waitForTimeout(delayMs);
+  }
+
+  // Retry mechanism for waitForVisible
+  private async waitForVisible(selector: string, options: { timeout?: number, retries?: number, retryInterval?: number } = {}): Promise<void> {
+    const { 
+      timeout = 10000, 
+      retries = 3, 
+      retryInterval = 1000 
+    } = options;
+    
+    let lastError: Error | null = null;
+    
+    for (let attempt = 1; attempt <= retries; attempt++) {
+      try {
+        await this.page.locator(selector).waitFor({ 
+          state: 'visible',
+          timeout: Math.floor(timeout / retries)
+        });
+        Logger.success(`Element found and visible: ${selector} (attempt ${attempt}/${retries})`);
+        return; // Success, exit function
+      } catch (error: any) {
+        lastError = error;
+        if (attempt < retries) {
+          Logger.warning(`Element not visible: ${selector}, retrying... (${attempt}/${retries})`);
+          await this.page.waitForTimeout(retryInterval);
+        }
+      }
+    }
+    
+    // If we got here, all retries failed
+    Logger.error(`Element not visible after ${retries} attempts: ${selector}`);
+    if (lastError) {
+      await this.handleError(lastError, 'element visibility', selector);
     }
   }
 
@@ -66,14 +95,14 @@ export default class SupportCalculatorFormPage {
     try {
       Logger.step(`Attempting to select ${optionValue} for ${field}`);
       
-      // Wait for and click dropdown
-      await this.waitForVisible(dropdownSelector);
-      await this.page.locator(dropdownSelector).click();
+      // Wait for and click dropdown with delay
+      await this.waitForVisible(dropdownSelector, { retries: 3 });
+      await this.clickWithDelay(dropdownSelector);
       
-      // Wait for and select option
+      // Wait for and select option with delay
       const optionSelector = SupportCalculatorFormPageLocators.getDropdownOption(optionValue);
-      await this.waitForVisible(optionSelector);
-      await this.page.locator(optionSelector).click();
+      await this.waitForVisible(optionSelector, { retries: 3 });
+      await this.clickWithDelay(optionSelector);
 
       Logger.success(`Successfully selected ${optionValue} for ${field}`);
     } catch (error: any) {
@@ -89,7 +118,7 @@ export default class SupportCalculatorFormPage {
         value,
         'Year of Birth'
       );
-      await this.waitForVisible(SupportCalculatorFormPageLocators.assessableIncomeDropdown);
+      //await this.waitForVisible(SupportCalculatorFormPageLocators.assessableIncomeDropdown, { retries: 3 });
       Logger.success('Year of Birth filled successfully');
     } catch (error: any) {
       await this.handleError(error, 'Year of Birth', value);
@@ -104,7 +133,7 @@ export default class SupportCalculatorFormPage {
         value,
         'Assessable Income'
       );
-      await this.waitForVisible(SupportCalculatorFormPageLocators.housingTypeDropdown);
+      await this.waitForVisible(SupportCalculatorFormPageLocators.housingTypeDropdown, { retries: 3 });
       Logger.success('Assessable Income filled successfully');
     } catch (error: any) {
       await this.handleError(error, 'Assessable Income', value);
@@ -114,8 +143,6 @@ export default class SupportCalculatorFormPage {
   private async fillHousingType(value: string): Promise<void> {
     try {
       Logger.step('Filling Housing Type...');
-      Logger.info('Waiting for 5 seconds...');
-      await this.page.waitForTimeout(5000);
       await this.selectOption(
         SupportCalculatorFormPageLocators.housingTypeDropdown, 
         value,
@@ -135,7 +162,7 @@ export default class SupportCalculatorFormPage {
         value,
         'Property Ownership'
       );
-      await this.waitForVisible(SupportCalculatorFormPageLocators.ownsMoreThanOnePropertyYes);
+      await this.waitForVisible(SupportCalculatorFormPageLocators.ownsMoreThanOnePropertyYes, { retries: 3 });
       Logger.success('Property Ownership filled successfully');
     } catch (error: any) {
       await this.handleError(error, 'Property Ownership', value);
@@ -149,8 +176,8 @@ export default class SupportCalculatorFormPage {
         ? SupportCalculatorFormPageLocators.ownsMoreThanOnePropertyYes
         : SupportCalculatorFormPageLocators.ownsMoreThanOnePropertyNo;
       
-      await this.waitForVisible(selector);
-      await this.page.locator(selector).click();
+      await this.waitForVisible(selector, { retries: 3 });
+      await this.clickWithDelay(selector);
       Logger.success(`Multiple Property option selected: ${value}`);
     } catch (error: any) {
       await this.handleError(error, 'Multiple Property Selection', value);
@@ -158,44 +185,37 @@ export default class SupportCalculatorFormPage {
   }
 
   async fillForm(data: { [key: string]: string }): Promise<void> {
-    try {
-      Logger.step('Starting form fill...');
-      await this.fillYearOfBirth(data['Year of birth'])
-        .then(() => this.fillAssessableIncome(data['Recent Assessable Income (AI)']))
-        .then(() => this.fillHousingType(data['Housing type']))
-        .then(() => {
-          if (data['Property ownership']) {
-            return this.fillPropertyOwnership(data['Property ownership']);
-          }
-        })
-        .then(() => {
-          if (data['Do you own more than 1 property?']) {
-            return this.selectMultipleProperty(data['Do you own more than 1 property?']);
-          }
-        })
-        .then(() => {
-          Logger.success('Form filled successfully');
-        });
-    } catch (error: any) {
-      if (error instanceof FormError) {
-        Logger.error('Form filling failed:', {
-          field: error.field,
-          value: error.value,
-          message: error.message,
-          screenshot: error.screenshot
-        });
-      } else {
-        Logger.error('Unexpected error:', error);
-      }
-      throw error;
+    Logger.step('Starting form fill...');
+
+    // Sequential execution - each method already has error handling
+    if (data['Year of birth']) {
+      await this.fillYearOfBirth(data['Year of birth']);
     }
+    
+    if (data['Recent Assessable Income (AI)']) {
+      await this.fillAssessableIncome(data['Recent Assessable Income (AI)']);
+    }
+    
+    if (data['Housing type']) {
+      await this.fillHousingType(data['Housing type']);
+    }
+    
+    if (data['Property ownership']) {
+      await this.fillPropertyOwnership(data['Property ownership']);
+    }
+    
+    if (data['Do you own more than 1 property?']) {
+      await this.selectMultipleProperty(data['Do you own more than 1 property?']);
+    }
+    
+    Logger.success('Form filled successfully');
   }
 
   async clickShowBenefits(): Promise<void> {
     try {
       Logger.step('Clicking Show Benefits button...');
-      await this.waitForVisible(SupportCalculatorFormPageLocators.showBenefitsButton);
-      await this.page.locator(SupportCalculatorFormPageLocators.showBenefitsButton).click();
+      await this.waitForVisible(SupportCalculatorFormPageLocators.showBenefitsButton, { retries: 3 });
+      await this.clickWithDelay(SupportCalculatorFormPageLocators.showBenefitsButton);
       Logger.success('Show Benefits button clicked successfully');
     } catch (error: any) {
       await this.handleError(error, 'Show Benefits Button');

@@ -57,21 +57,21 @@ Before(async function (this: CustomWorld) {
     
     // Create context with options from config
     this.context = await this.browser.newContext({
-        viewport: { width: 1920, height: 1080 }
+        viewport: { width: 1280, height: 768 }
     });
     
     // Create page
     this.page = await this.context.newPage();
     
     // Maximize the window
-    if (this.page) {
-        await this.page.evaluate(() => {
-            document.documentElement.requestFullscreen();
-        });
-    }
+    // if (this.page) {
+    //     await this.page.evaluate(() => {
+    //         document.documentElement.requestFullscreen();
+    //     });
+    // }
     
     // Log browser info
-    console.log(`🌐 Running tests with ${this.browserName} browser in full screen mode`);
+    console.log(`🌐 Running tests with ${this.browserName} browser`);
 });
 
 // Take screenshot on failure

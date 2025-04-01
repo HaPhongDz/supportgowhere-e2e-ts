@@ -1,12 +1,12 @@
 const supportCalculatorFormPageLocators = {
     // Form fields
 //   yearOfBirthDropdown: "//*[@aria-labelledby='personalInfo.yearOfBirth']",
-  assessableIncomeDropdown: "//*[@aria-labelledby='personalInfo.assessableIncome']/ancestor::div[1]",
-  yearOfBirthDropdown: "[aria-labelledby='personalInfo.yearOfBirth']",
+  assessableIncomeDropdown: "div[id*='personalInfo.assessableIncome']",
+  yearOfBirthDropdown: "div[id*='personalInfo.yearOfBirth-container']",
   //assessableIncomeDropdown: "[aria-labelledby='personalInfo.assessableIncome']",
   //housingTypeDropdown: "//*[await page.getByRole('button', { name: 'Show estimated benefits' }).click();.typeOfPropertyOfResidence']/ancestor::div[1]",
-  housingTypeDropdown: "[id*='property.typeOfPropertyOfResidence-container']",
-  propertyOwnershipDropdown: "[id*='property.ownsPropertyOfResidence-container']",
+  housingTypeDropdown: "div[id*='property.typeOfPropertyOfResidence-container']",
+  propertyOwnershipDropdown: "div[id*='property.ownsPropertyOfResidence-container']",
 
   // Radio buttons
   ownsMoreThanOnePropertyNo: "//*[@name='property.ownsMoreThanOneProperty' and @value = 'No']/ancestor::label",
