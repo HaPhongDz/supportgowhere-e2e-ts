@@ -13,9 +13,8 @@
             "keyword": "Before",
             "hidden": true,
             "result": {
-              "status": "failed",
-              "duration": 5026000000,
-              "error_message": "Error: function timed out, ensure the promise resolves within 5000 milliseconds\n    at Timeout.<anonymous> (D:\\Study\\Playwright\\supportgowhere-e2e-ts\\node_modules\\@cucumber\\cucumber\\src\\user_code_runner.ts:80:18)\n    at listOnTimeout (node:internal/timers:594:17)\n    at processTimers (node:internal/timers:529:7)"
+              "status": "passed",
+              "duration": 391000000
             }
           },
           {
@@ -27,8 +26,8 @@
               "location": "src\\step-definitions\\supportCalculator.steps.ts:16"
             },
             "result": {
-              "status": "skipped",
-              "duration": 0
+              "status": "passed",
+              "duration": 3088000000
             }
           },
           {
@@ -40,8 +39,8 @@
               "location": "src\\step-definitions\\supportCalculator.steps.ts:21"
             },
             "result": {
-              "status": "skipped",
-              "duration": 0
+              "status": "passed",
+              "duration": 1464000000
             }
           },
           {
@@ -53,17 +52,16 @@
               "location": "src\\step-definitions\\supportCalculator.steps.ts:25"
             },
             "result": {
-              "status": "skipped",
-              "duration": 0
+              "status": "passed",
+              "duration": 1249000000
             }
           },
           {
             "keyword": "After",
             "hidden": true,
             "result": {
-              "status": "failed",
-              "duration": 5015000000,
-              "error_message": "Error: function timed out, ensure the promise resolves within 5000 milliseconds\n    at Timeout.<anonymous> (D:\\Study\\Playwright\\supportgowhere-e2e-ts\\node_modules\\@cucumber\\cucumber\\src\\user_code_runner.ts:80:18)\n    at listOnTimeout (node:internal/timers:594:17)\n    at processTimers (node:internal/timers:529:7)"
+              "status": "passed",
+              "duration": 189000000
             }
           }
         ],
@@ -82,7 +80,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 4625000000
+              "duration": 322000000
             }
           },
           {
@@ -95,7 +93,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 3782000000
+              "duration": 3235000000
             }
           },
           {
@@ -108,7 +106,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 1549000000
+              "duration": 1382000000
             }
           },
           {
@@ -121,7 +119,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 1375000000
+              "duration": 1235000000
             }
           },
           {
@@ -129,7 +127,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 1672000000
+              "duration": 209000000
             }
           }
         ],

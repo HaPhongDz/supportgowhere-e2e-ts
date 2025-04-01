@@ -37,6 +37,8 @@ jobs:
       # Step 6: Run Cucumber tests and capture results
       - name: Run Cucumber tests and capture results
         id: run-tests
+        env:
+          PLAYWRIGHT_HEADLESS: "true"
         run: |
           npm run test > cucumber-output.txt
           
