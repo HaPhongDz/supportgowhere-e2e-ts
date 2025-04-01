@@ -1,8 +1,6 @@
 node_modules/
 dist/
-reports/
-test-results/
 videos/
-playwright-report/
+test-results/screenshots/
 .env
 *.log

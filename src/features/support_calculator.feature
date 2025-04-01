@@ -5,18 +5,15 @@ Feature: Verify Support Calculator Quantum Payouts
     When I click on the calculator button on HomePage
     And I click on the start button on Support Calculator Page
     And I fill in the form with the following data:
-      | field             | value           |
-      | birthYear         | <birthYear>     |
-      | income            | <income>        |
-      | nsStatus          | <nsStatus>      |
-      | cpf               | <cpf>           |
-      | propertyOwnership | <propertyOwnership> |
-      | housingType       | <housingType>   |
-      | av                | <av>            |
+      | field                           | value           |
+      | Year of birth                   | <birthYear>     |
+      | Recent Assessable Income (AI)   | <income>        |
+      | Housing type                    | <housingType>   |
+      | Property ownership              | <propertyOwnership> |
+      | Do you own more than 1 property?| <multipleProperty> |
     And I click on the "Show estimated benefits" button
     Then I should see a result that includes "<expectedResult>"
 
     Examples:
-      | birthYear | income | nsStatus | cpf   | propertyOwnership | housingType | av     | expectedResult |
-      | 1990      | 50000  | yes      | 20000 | single            | HDB       | N/A    | Benefit A      |
-      | 1985      | 75000  | no       | 30000 | multiple          | Private   | 15000  | Benefit B      |
+      | birthYear | income                           | housingType  | propertyOwnership  | multipleProperty | expectedResult |
+      | 1985      | Between $34,001 and $100,000    | 2-room flat | Rented from HDB   | Yes             | Benefit A      |

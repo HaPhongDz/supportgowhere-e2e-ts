@@ -27,7 +27,7 @@ When('I click on the start button on Support Calculator Page', async function (t
 });
 
 When('I fill in the form with the following data:', async function (this: CustomWorld, dataTable) {
-  supportCalculatorFormPage = new SupportCalculatorFormPage(this.page!);
+  const supportCalculatorFormPage = new SupportCalculatorFormPage(this.page!);
   const data: { [key: string]: string } = {};
   dataTable.rows().forEach((row: string[]) => {
     data[row[0]] = row[1];
@@ -36,6 +36,7 @@ When('I fill in the form with the following data:', async function (this: Custom
 });
 
 When('I click on the {string} button', async function (this: CustomWorld, buttonText: string) {
+  supportCalculatorFormPage = new SupportCalculatorFormPage(this.page!);
   await supportCalculatorFormPage.clickShowBenefits();
 });
 
