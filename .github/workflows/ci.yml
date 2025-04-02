@@ -42,7 +42,7 @@ jobs:
 
       # Step 7: Generate HTML Report
       - name: Generate HTML Report
-        run: npm run test:report
+        run: npm run report
 
       # Step 8: Upload Cucumber HTML Report
       - name: Upload Cucumber HTML Report
@@ -50,7 +50,7 @@ jobs:
         if: always()
         with:
           name: cucumber-html-report
-          path: cucumber-report.html
+          path: reports/cucumber-report.html
 
       # Step 9: Upload Screenshots on Failure
       - name: Upload Screenshots
@@ -59,12 +59,7 @@ jobs:
         with:
           name: test-screenshots
           path: |
-            error-*.png
-            error-click-*.png
-            error-wait-visible-*.png
-            error-get-text-*.png
-            error-amount-*.png
-            error-tab-click-*.png
+            reports/screenshots/*.png
 
       # Step 10: Notify on Failure
       - name: Notify on Failure
