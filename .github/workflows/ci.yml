@@ -39,20 +39,31 @@ jobs:
       # Step 6: Run Cucumber tests and capture results
       - name: Run Cucumber tests and capture results
         id: run-tests
-        env:
-          PLAYWRIGHT_HEADLESS: "true"
+        
         run: |
+          # Run tests and save output
           npm run test > cucumber-output.txt
           
-          # Extract test results
-          SCENARIOS_PASSED=$(grep -oP '(?<=\s)\d+(?=\s+passed)' cucumber-output.txt || echo 0)
-          SCENARIOS_FAILED=$(grep -oP '(?<=\s)\d+(?=\s+failed)' cucumber-output.txt || echo 0)
+          # Print the output for debugging
+          echo "Test Output:"
+          cat cucumber-output.txt
           
-          # Default to 0 if no results are found
+          # Extract test results using more precise patterns
+          SCENARIOS_PASSED=$(grep -oP '(?<=Scenarios:)\s*\d+(?=\s+passed)' cucumber-output.txt || echo 0)
+          SCENARIOS_FAILED=$(grep -oP '(?<=Scenarios:)\s*\d+(?=\s+failed)' cucumber-output.txt || echo 0)
+          
+          # If no results found, try alternative patterns
+          if [ "$SCENARIOS_PASSED" = "0" ] && [ "$SCENARIOS_FAILED" = "0" ]; then
+            SCENARIOS_PASSED=$(grep -oP '(?<=passed)\s*\d+' cucumber-output.txt || echo 0)
+            SCENARIOS_FAILED=$(grep -oP '(?<=failed)\s*\d+' cucumber-output.txt || echo 0)
+          fi
+          
+          # Default to 0 if still no results found
           SCENARIOS_PASSED=${SCENARIOS_PASSED:-0}
           SCENARIOS_FAILED=${SCENARIOS_FAILED:-0}
           
           # Print results for debugging
+          echo "Extracted Results:"
           echo "Scenarios Passed: $SCENARIOS_PASSED"
           echo "Scenarios Failed: $SCENARIOS_FAILED"
           
@@ -72,7 +83,7 @@ jobs:
         if: always()
         with:
           name: cucumber-html-report
-          path: cucumber-report.html
+          path: reports/cucumber-report.html
 
       # Step 9: Set ARTIFACT_URL variable
       - name: Set ARTIFACT_URL variable
