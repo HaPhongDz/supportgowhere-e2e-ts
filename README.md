@@ -92,7 +92,7 @@ supportgowhere-e2e-ts/
 
 Run all tests:
 ```
-npm test
+npm run test
 ```
 
 Run tests and generate HTML report:
