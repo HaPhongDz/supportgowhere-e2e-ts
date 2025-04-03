@@ -14,7 +14,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 449000000
+              "duration": 443000000
             }
           },
           {
@@ -27,7 +27,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 2667000000
+              "duration": 2293000000
             }
           },
           {
@@ -40,7 +40,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 1058000000
+              "duration": 1055000000
             }
           },
           {
@@ -53,7 +53,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 662000000
+              "duration": 646000000
             }
           },
           {
@@ -107,7 +107,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 1589000000
+              "duration": 3614000000
             }
           },
           {
@@ -120,7 +120,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 631000000
+              "duration": 642000000
             }
           },
           {
@@ -129,11 +129,11 @@
             "line": 18,
             "name": "I should see a result for \"Assurance Package 2025\" that includes \"$350\"",
             "match": {
-              "location": "src\\step-definitions\\supportCalculator.steps.ts:49"
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:44"
             },
             "result": {
               "status": "passed",
-              "duration": 2107000000
+              "duration": 2276000000
             }
           },
           {
@@ -141,7 +141,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 11000000
+              "duration": 32000000
             }
           }
         ],
@@ -165,7 +165,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 141000000
+              "duration": 174000000
             }
           },
           {
@@ -178,7 +178,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 927000000
+              "duration": 926000000
             }
           },
           {
@@ -191,7 +191,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 1229000000
+              "duration": 1225000000
             }
           },
           {
@@ -204,7 +204,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 601000000
+              "duration": 592000000
             }
           },
           {
@@ -258,7 +258,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 2333000000
+              "duration": 2532000000
             }
           },
           {
@@ -271,7 +271,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 229000000
+              "duration": 231000000
             }
           },
           {
@@ -280,11 +280,11 @@
             "line": 18,
             "name": "I should see a result for \"Assurance Package 2026\" that includes \"$100\"",
             "match": {
-              "location": "src\\step-definitions\\supportCalculator.steps.ts:49"
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:44"
             },
             "result": {
               "status": "passed",
-              "duration": 2080000000
+              "duration": 2131000000
             }
           },
           {
@@ -316,7 +316,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 124000000
+              "duration": 145000000
             }
           },
           {
@@ -329,7 +329,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 950000000
+              "duration": 1002000000
             }
           },
           {
@@ -342,7 +342,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 1242000000
+              "duration": 1143000000
             }
           },
           {
@@ -355,7 +355,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 614000000
+              "duration": 604000000
             }
           },
           {
@@ -409,7 +409,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 2504000000
+              "duration": 2275000000
             }
           },
           {
@@ -422,7 +422,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 253000000
+              "duration": 241000000
             }
           },
           {
@@ -431,11 +431,11 @@
             "line": 18,
             "name": "I should see a result for \"Assurance Package 2025\" that includes \"$600\"",
             "match": {
-              "location": "src\\step-definitions\\supportCalculator.steps.ts:49"
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:44"
             },
             "result": {
               "status": "passed",
-              "duration": 2128000000
+              "duration": 2020000000
             }
           },
           {
@@ -443,7 +443,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 8000000
+              "duration": 5000000
             }
           }
         ],
@@ -467,7 +467,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 138000000
+              "duration": 119000000
             }
           },
           {
@@ -480,7 +480,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 980000000
+              "duration": 902000000
             }
           },
           {
@@ -493,7 +493,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 1214000000
+              "duration": 1109000000
             }
           },
           {
@@ -506,7 +506,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 596000000
+              "duration": 637000000
             }
           },
           {
@@ -515,11 +515,11 @@
             "line": 28,
             "name": "I click Show estimated benefits without filling any fields",
             "match": {
-              "location": "src\\step-definitions\\supportCalculator.steps.ts:44"
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:77"
             },
             "result": {
               "status": "passed",
-              "duration": 1601000000
+              "duration": 1633000000
             }
           },
           {
@@ -528,7 +528,7 @@
             "line": 29,
             "name": "I should see required field error messages under all fields",
             "match": {
-              "location": "src\\step-definitions\\supportCalculator.steps.ts:67"
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:62"
             },
             "result": {
               "status": "passed",
@@ -540,7 +540,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 3000000
+              "duration": 4000000
             }
           }
         ],
@@ -559,5 +559,376 @@
     "name": "Verify Support Calculator Quantum Payouts",
     "tags": [],
     "uri": "src\\features\\support_calculator.feature"
+  },
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "verify-support-calculator-quantum-payouts;verify-fields-visibility-based-on-birth-year",
+        "keyword": "Scenario Outline",
+        "line": 9,
+        "name": "Verify fields visibility based on birth year",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 95000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "I navigate to \"https://supportgowhere.life.gov.sg\"",
+            "match": {
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:16"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 877000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 5,
+            "name": "I click on the calculator button on HomePage",
+            "match": {
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1074000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 6,
+            "name": "I click on the start button on Support Calculator Page",
+            "match": {
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:25"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 601000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 10,
+            "name": "I fill in the form with birth year \"2003\"",
+            "match": {
+              "location": "src\\step-definitions\\quantum-payouts.steps.ts:10"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1174000000
+            }
+          },
+          {
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "field",
+                      "isVisible"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Recent Assessable Income (AI)",
+                      "true"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "CPF MediSave balance",
+                      "false"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "Then ",
+            "line": 11,
+            "name": "I should see the following fields with correct labels:",
+            "match": {
+              "location": "src\\step-definitions\\quantum-payouts.steps.ts:17"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 36000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 4000000
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@quantum-payouts",
+            "line": 8
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "verify-support-calculator-quantum-payouts;verify-fields-visibility-based-on-birth-year",
+        "keyword": "Scenario Outline",
+        "line": 9,
+        "name": "Verify fields visibility based on birth year",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 112000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "I navigate to \"https://supportgowhere.life.gov.sg\"",
+            "match": {
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:16"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 969000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 5,
+            "name": "I click on the calculator button on HomePage",
+            "match": {
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1135000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 6,
+            "name": "I click on the start button on Support Calculator Page",
+            "match": {
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:25"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 625000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 10,
+            "name": "I fill in the form with birth year \"1973\"",
+            "match": {
+              "location": "src\\step-definitions\\quantum-payouts.steps.ts:10"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1208000000
+            }
+          },
+          {
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "field",
+                      "isVisible"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Recent Assessable Income (AI)",
+                      "true"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "CPF MediSave balance",
+                      "true"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "Then ",
+            "line": 11,
+            "name": "I should see the following fields with correct labels:",
+            "match": {
+              "location": "src\\step-definitions\\quantum-payouts.steps.ts:17"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 59000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 7000000
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@quantum-payouts",
+            "line": 8
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "verify-support-calculator-quantum-payouts;verify-fields-visibility-based-on-birth-year",
+        "keyword": "Scenario Outline",
+        "line": 9,
+        "name": "Verify fields visibility based on birth year",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 123000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "I navigate to \"https://supportgowhere.life.gov.sg\"",
+            "match": {
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:16"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 935000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 5,
+            "name": "I click on the calculator button on HomePage",
+            "match": {
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1154000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 6,
+            "name": "I click on the start button on Support Calculator Page",
+            "match": {
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:25"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 607000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 10,
+            "name": "I fill in the form with birth year \"2010\"",
+            "match": {
+              "location": "src\\step-definitions\\quantum-payouts.steps.ts:10"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1175000000
+            }
+          },
+          {
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "field",
+                      "isVisible"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Recent Assessable Income (AI)",
+                      "false"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "CPF MediSave balance",
+                      "false"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "Then ",
+            "line": 11,
+            "name": "I should see the following fields with correct labels:",
+            "match": {
+              "location": "src\\step-definitions\\quantum-payouts.steps.ts:17"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 29000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 7000000
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@quantum-payouts",
+            "line": 8
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "verify-support-calculator-quantum-payouts",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Verify Support Calculator Quantum Payouts",
+    "tags": [],
+    "uri": "src\\features\\verify-quantum-payouts.feature"
   }
 ]

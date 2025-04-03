@@ -3,6 +3,7 @@ import { Page } from '@playwright/test';
 import SupportCalculatorFormPageLocators from '../locators/supportCalculatorFormPageLocators';
 import { Logger } from '../utils/Logger';
 import { ERROR_MESSAGES } from '../constants/errorMessages';
+import { FORM_LABELS } from '../constants/labels';
 
 // Custom error class for form filling errors
 class FormError extends Error {
@@ -122,6 +123,61 @@ export default class SupportCalculatorFormPage {
       };
     } catch (error) {
       Logger.error('Error checking required field error messages:', error);
+      throw error;
+    }
+  }
+
+  async checkFieldVisibilityAndLabel(field: string): Promise<{ isVisible: boolean; labelText: string }> {
+    try {
+      let isVisible = false;
+      let labelText = '';
+      
+      switch (field) {
+        case FORM_LABELS.RECENT_ASSESSABLE_INCOME:
+          isVisible = await this.page.locator(SupportCalculatorFormPageLocators.assessableIncomeDropdown).isVisible();
+          if (isVisible) {
+            labelText = await this.page.locator(SupportCalculatorFormPageLocators.assessableIncomeLabel).textContent() || '';
+          }
+          break;
+        case FORM_LABELS.CPF_MEDISAVE_BALANCE:
+          isVisible = await this.page.locator(SupportCalculatorFormPageLocators.medisaveBalanceTier1).isVisible() && 
+                     await this.page.locator(SupportCalculatorFormPageLocators.medisaveBalanceTier2).isVisible();
+          if (isVisible) {
+            labelText = await this.page.locator(SupportCalculatorFormPageLocators.medisaveBalanceLabel).textContent() || '';
+          }
+          break;
+        default:
+          throw new Error(`Unknown field: ${field}`);
+      }
+      
+      return { isVisible, labelText: labelText.trim() };
+    } catch (error) {
+      Logger.error(`Error checking field ${field}:`, error);
+      await this.page.screenshot({ path: `error-${field.toLowerCase().replace(/\s+/g, '-')}.png` });
+      throw error;
+    }
+  }
+
+  async verifyFieldVisibilityAndLabel(field: string, expectedVisibility: boolean): Promise<void> {
+    try {
+      const { isVisible, labelText } = await this.checkFieldVisibilityAndLabel(field);
+      
+      // Verify visibility first
+      if (isVisible !== expectedVisibility) {
+        throw new Error(`Field ${field} visibility mismatch. Expected: ${expectedVisibility}, Actual: ${isVisible}`);
+      }
+      
+      // Only verify label if field is visible
+      if (isVisible) {
+        if (labelText !== field) {
+          throw new Error(`Field ${field} label mismatch. Expected: ${field}, Actual: ${labelText}`);
+        }
+        Logger.success(`Field ${field} check passed - Visibility: ${isVisible}, Label: ${labelText}`);
+      } else {
+        Logger.success(`Field ${field} check passed - Field is not visible as expected`);
+      }
+    } catch (error) {
+      Logger.error(`Error verifying field ${field}:`, error);
       throw error;
     }
   }

@@ -41,11 +41,6 @@ When('I click Show estimated benefits', async function (this: CustomWorld) {
   await supportCalculatorFormPage.clickShowBenefits();
 });
 
-When('I click Show estimated benefits without filling any fields', async function (this: CustomWorld) {
-  supportCalculatorFormPage = new SupportCalculatorFormPage(this.page!);
-  await supportCalculatorFormPage.clickShowBenefits();
-});
-
 Then('I should see a result for {string} that includes {string}', async function (this: CustomWorld, packageName: string, expectedAmount: string) {
   Logger.step(`Checking ${packageName} with expected amount: ${expectedAmount}`);
   calculatedResultPage = new CalculatedResultPage(this.page!);
@@ -62,7 +57,7 @@ Then('I should see a result for {string} that includes {string}', async function
   expect(amountText).toContain(expectedAmount);
   
   Logger.success(`Successfully verified ${packageName} includes ${expectedAmount}`);
-});
+}); 
 
 Then('I should see required field error messages under all fields', async function (this: CustomWorld) {
   Logger.step('Verifying all error messages are displayed');
@@ -77,4 +72,9 @@ Then('I should see required field error messages under all fields', async functi
   expect(errorResults.multipleProperty).toBeTruthy();
   
   Logger.success('All required field error messages are displayed correctly');
+});
+
+When('I click Show estimated benefits without filling any fields', async function (this: CustomWorld) {
+  supportCalculatorFormPage = new SupportCalculatorFormPage(this.page!);
+  await supportCalculatorFormPage.clickShowBenefits();
 });

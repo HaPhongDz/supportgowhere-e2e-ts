@@ -27,3 +27,4 @@ Feature: Verify Support Calculator Quantum Payouts
   Scenario: Validate required fields
     When I click Show estimated benefits without filling any fields
     Then I should see required field error messages under all fields
+
