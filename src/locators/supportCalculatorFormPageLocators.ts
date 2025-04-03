@@ -1,11 +1,7 @@
 const supportCalculatorFormPageLocators = {
-    // Form fields
-  //   yearOfBirthDropdown: "//*[@aria-labelledby='personalInfo.yearOfBirth']",
   assessableIncomeDropdown: "div[id*='personalInfo.assessableIncome']",
   assessableIncomeLabel: "//*[@id='personalInfo.assessableIncome']/ancestor::fieldset//label",
   yearOfBirthDropdown: "div[id*='personalInfo.yearOfBirth-container']",
-  //assessableIncomeDropdown: "[aria-labelledby='personalInfo.assessableIncome']",
-  //housingTypeDropdown: "//*[await page.getByRole('button', { name: 'Show estimated benefits' }).click();.typeOfPropertyOfResidence']/ancestor::div[1]",
   housingTypeDropdown: "div[id*='property.typeOfPropertyOfResidence-container']",
   propertyOwnershipDropdown: "div[id*='property.ownsPropertyOfResidence-container']",
 
