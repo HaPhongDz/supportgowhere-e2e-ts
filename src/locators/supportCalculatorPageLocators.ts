@@ -1,6 +1,6 @@
 // locators/supportCalculatorPageLocators.ts
 const supportCalculatorPageLocators = {
-    startButton: 'text=Start'
+    startButton: "//*[text()='Start']"
 };
   
 export default supportCalculatorPageLocators;

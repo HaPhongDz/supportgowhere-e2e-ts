@@ -1,7 +1,7 @@
 // step-definitions/supportCalculator.steps.ts
 import { Given, When, Then } from '@cucumber/cucumber';
-import { expect } from 'playwright/test';
-import { CustomWorld } from '../../hooks/hooks';
+import { expect } from '@playwright/test';
+import { CustomWorld } from '../../hooks/world';
 import HomePage from '../pages/HomePage';
 import SupportCalculatorPage from '../pages/SupportCalculatorPage';
 import SupportCalculatorFormPage from '../pages/SupportCalculatorFormPage';
@@ -36,7 +36,12 @@ When('I fill in the form with the following data:', async function (this: Custom
   await supportCalculatorFormPage.fillForm(data);
 });
 
-When('I click on the {string} button', async function (this: CustomWorld, buttonText: string) {
+When('I click Show estimated benefits', async function (this: CustomWorld) {
+  supportCalculatorFormPage = new SupportCalculatorFormPage(this.page!);
+  await supportCalculatorFormPage.clickShowBenefits();
+});
+
+When('I click Show estimated benefits without filling any fields', async function (this: CustomWorld) {
   supportCalculatorFormPage = new SupportCalculatorFormPage(this.page!);
   await supportCalculatorFormPage.clickShowBenefits();
 });
@@ -57,4 +62,19 @@ Then('I should see a result for {string} that includes {string}', async function
   expect(amountText).toContain(expectedAmount);
   
   Logger.success(`Successfully verified ${packageName} includes ${expectedAmount}`);
+});
+
+Then('I should see required field error messages under all fields', async function (this: CustomWorld) {
+  Logger.step('Verifying all error messages are displayed');
+  
+  // Check for error messages in the form
+  const errorResults = await supportCalculatorFormPage.verifyRequiredFieldErrors();
+  
+  // Assert that all error messages are visible
+  expect(errorResults.yearOfBirth).toBeTruthy();
+  expect(errorResults.housingType).toBeTruthy();
+  expect(errorResults.propertyOwnership).toBeTruthy();
+  expect(errorResults.multipleProperty).toBeTruthy();
+  
+  Logger.success('All required field error messages are displayed correctly');
 });

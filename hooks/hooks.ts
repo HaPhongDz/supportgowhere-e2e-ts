@@ -1,91 +1,122 @@
-import { Before, After, setWorldConstructor, World } from '@cucumber/cucumber';
-import { chromium, firefox, webkit, Browser, BrowserContext, Page, devices } from '@playwright/test';
-import config from '../playwright.config';
+import { Before, BeforeAll, BeforeStep, After, AfterAll, Status, setDefaultTimeout } from '@cucumber/cucumber';
+import { Browser, chromium, Page, BrowserContext } from '@playwright/test';
+import { CustomWorld } from './world';
+import { Logger } from '../src/utils/Logger';
+import path from 'path';
+import fs from 'fs';
 
-// Define interface for Custom World
-export interface CustomWorld extends World {
-    browser?: Browser;
-    context?: BrowserContext;
-    page?: Page;
-    browserName?: string;
-}
+let browser: Browser;
+let context: BrowserContext;
+let page: Page;
+let isBackgroundUsed = false; // Flag to check if Background is used in the feature
 
-// Set World Constructor with basic World implementation
-setWorldConstructor(class extends World {
-    constructor(options: any) {
-        super(options);
-    }
+// Set default timeout to 60 seconds
+setDefaultTimeout(60 * 1000);
+
+BeforeAll(async function () {
+  Logger.info('Starting browser...');
+  browser = await chromium.launch({
+    headless: false,
+    args: ['--start-maximized']
+  });
 });
 
-// Create new browser, context and page before each scenario
-Before(async function (this: CustomWorld) {
-    // Get browser name from environment variable or config
-    const browserEnv = process.env.BROWSER;
-    
-    if (browserEnv) {
-        // Use browser from environment variable
-        this.browserName = browserEnv;
-    } else {
-        // Get browser configuration from the first project
-        const projectConfig = config.projects?.[0]?.use || {};
-        // Get browser name from config or default to chromium
-        this.browserName = projectConfig.browserName || 'chromium';
-    }
-    
-    // Launch the appropriate browser
-    let browser;
-    switch (this.browserName) {
-        case 'firefox':
-            browser = await firefox.launch({
-                headless: config.use?.headless ?? false,
-                slowMo: 1000
-            });
-            break;
-        case 'webkit':
-            browser = await webkit.launch({
-                headless: config.use?.headless ?? false,
-                slowMo: 1000
-            });
-            break;
-        default:
-            browser = await chromium.launch({
-                headless: config.use?.headless ?? false,
-                slowMo: 1000
-            });
-    }
-    this.browser = browser;
-    
-    // Create context with options from config
-    this.context = await this.browser.newContext({
-        viewport: { width: 1280, height: 768 }
+// Detect whether the feature has a Background
+Before(async function (this: CustomWorld, scenario) {
+  const featureName = scenario.gherkinDocument.feature?.name || "Unknown Feature";
+  const hasBackground = !!scenario.gherkinDocument.feature?.children?.some(
+    (child) => child.background
+  );
+
+  isBackgroundUsed = hasBackground;
+  Logger.info(`🏗 Feature: "${featureName}" uses Background: ${isBackgroundUsed}`);
+
+  if (!isBackgroundUsed) {
+    Logger.info("Creating new browser context and page for each scenario...");
+    if (this.context) await this.context.close();
+    context = await browser.newContext({
+      viewport: { width: 1920, height: 1080 }
+      //recordVideo: {
+      //  dir: 'reports/videos',
+      //  size: { width: 1920, height: 1080 }
+      //}
     });
-    
-    // Create page
-    this.page = await this.context.newPage();
-    
-    // Maximize the window
-    // if (this.page) {
-    //     await this.page.evaluate(() => {
-    //         document.documentElement.requestFullscreen();
-    //     });
-    // }
-    
-    // Log browser info
-    console.log(`🌐 Running tests with ${this.browserName} browser`);
+  } else if (!context || !page) {
+    Logger.info("Reusing browser context and page for all scenarios with Background...");
+    context = await browser.newContext({
+      viewport: { width: 1920, height: 1080 }
+      //recordVideo: {
+      //  dir: 'reports/videos',
+      //  size: { width: 1920, height: 1080 }
+      //}
+    });
+  }
+  
+  // Enable request interception
+  // await context.route('**/*', async (route) => {
+  //   const request = route.request();
+  //   Logger.info(`Request: ${request.method()} ${request.url()}`);
+  //   await route.continue();
+  // });
+
+  page = await context.newPage();
+  this.page = page;
+  this.context = context;
 });
 
-// Take screenshot on failure
+BeforeStep(async function (this: CustomWorld) {
+  // Add any pre-step actions here
+  Logger.info('Before step actions...');
+});
+
 After(async function (this: CustomWorld, scenario) {
-    if (scenario.result?.status === 'FAILED' && this.page) {
-        const screenshot = await this.page.screenshot({ 
-            path: `test-results/screenshots/${scenario.pickle.name.replace(/\s+/g, '-')}-${Date.now()}.png`,
-            fullPage: true 
-        });
-        await this.attach(screenshot, 'image/png');
+  const status = scenario.result?.status;
+  const scenarioName = scenario.pickle.name;
+  
+  Logger.info(`🌟 Scenario: "${scenarioName}" completed with status: ${status}`);
+
+  if (status === Status.FAILED) {
+    try {
+      Logger.error(`Scenario "${scenarioName}" failed`);
+      
+      // Take screenshot with sanitized name
+      const sanitizedScenarioName = scenarioName.replace(/[^a-zA-Z0-9]/g, "_");
+      const screenshotPath = path.resolve(`./reports/screenshots/${sanitizedScenarioName}.png`);
+      
+      // Ensure the screenshots directory exists
+      const screenshotDir = path.dirname(screenshotPath);
+      if (!fs.existsSync(screenshotDir)) {
+        fs.mkdirSync(screenshotDir, { recursive: true });
+      }
+      
+      // Take the screenshot
+      const buffer = await this.page?.screenshot({ 
+        path: screenshotPath,
+        fullPage: true 
+      });
+      
+      // Attach the screenshot to the JSON report
+      if (this.attach && buffer) {
+        this.attach(buffer, "image/png");
+      }
+      
+      Logger.screenshot(screenshotPath, `Failed scenario: ${scenarioName}`);
+    } catch (error) {
+      Logger.error("Failed to capture or attach screenshot:", error);
     }
-    
-    // Close browser after each scenario
-    if (this.browser) {
-        await this.browser.close();
-    }
+  } else {
+    Logger.success(`Scenario "${scenarioName}" passed`);
+  }
+  
+  // Only close context if not using background or this is the last scenario
+  if (!isBackgroundUsed && this.context) {
+    await this.context.close();
+  }
+});
+
+AfterAll(async function () {
+  Logger.info('Closing browser...');
+  if (browser) {
+    await browser.close();
+  }
 }); 

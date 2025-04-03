@@ -6,7 +6,7 @@
         "description": "",
         "id": "verify-support-calculator-quantum-payouts;calculate-quantum-payout-based-on-user-inputs",
         "keyword": "Scenario Outline",
-        "line": 3,
+        "line": 9,
         "name": "Calculate quantum payout based on user inputs",
         "steps": [
           {
@@ -14,7 +14,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 391000000
+              "duration": 449000000
             }
           },
           {
@@ -27,7 +27,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 3088000000
+              "duration": 2667000000
             }
           },
           {
@@ -40,7 +40,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 1464000000
+              "duration": 1058000000
             }
           },
           {
@@ -53,7 +53,87 @@
             },
             "result": {
               "status": "passed",
-              "duration": 1249000000
+              "duration": 662000000
+            }
+          },
+          {
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "field",
+                      "value"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Year of birth",
+                      "1985"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Recent Assessable Income (AI)",
+                      "Between $34,001 and $100,000"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Housing type",
+                      "2-room flat"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Property ownership",
+                      "Rented from HDB"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Do you own more than 1 property?",
+                      "No"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "When ",
+            "line": 10,
+            "name": "I fill in the form with the following data:",
+            "match": {
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:30"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1589000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 17,
+            "name": "I click Show estimated benefits",
+            "match": {
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:39"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 631000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 18,
+            "name": "I should see a result for \"Assurance Package 2025\" that includes \"$350\"",
+            "match": {
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:49"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2107000000
             }
           },
           {
@@ -61,18 +141,23 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 189000000
+              "duration": 11000000
             }
           }
         ],
-        "tags": [],
+        "tags": [
+          {
+            "name": "@positive",
+            "line": 8
+          }
+        ],
         "type": "scenario"
       },
       {
         "description": "",
         "id": "verify-support-calculator-quantum-payouts;calculate-quantum-payout-based-on-user-inputs",
         "keyword": "Scenario Outline",
-        "line": 3,
+        "line": 9,
         "name": "Calculate quantum payout based on user inputs",
         "steps": [
           {
@@ -80,7 +165,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 322000000
+              "duration": 141000000
             }
           },
           {
@@ -93,7 +178,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 3235000000
+              "duration": 927000000
             }
           },
           {
@@ -106,7 +191,7 @@
             },
             "result": {
               "status": "passed",
-              "duration": 1382000000
+              "duration": 1229000000
             }
           },
           {
@@ -119,7 +204,87 @@
             },
             "result": {
               "status": "passed",
-              "duration": 1235000000
+              "duration": 601000000
+            }
+          },
+          {
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "field",
+                      "value"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Year of birth",
+                      "1990"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Recent Assessable Income (AI)",
+                      "Above $100,000"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Housing type",
+                      "3-room flat"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Property ownership",
+                      "Rented from Open market"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Do you own more than 1 property?",
+                      "No"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "When ",
+            "line": 10,
+            "name": "I fill in the form with the following data:",
+            "match": {
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:30"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2333000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 17,
+            "name": "I click Show estimated benefits",
+            "match": {
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:39"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 229000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 18,
+            "name": "I should see a result for \"Assurance Package 2026\" that includes \"$100\"",
+            "match": {
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:49"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2080000000
             }
           },
           {
@@ -127,11 +292,264 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 209000000
+              "duration": 4000000
             }
           }
         ],
-        "tags": [],
+        "tags": [
+          {
+            "name": "@positive",
+            "line": 8
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "verify-support-calculator-quantum-payouts;calculate-quantum-payout-based-on-user-inputs",
+        "keyword": "Scenario Outline",
+        "line": 9,
+        "name": "Calculate quantum payout based on user inputs",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 124000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "I navigate to \"https://supportgowhere.life.gov.sg\"",
+            "match": {
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:16"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 950000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 5,
+            "name": "I click on the calculator button on HomePage",
+            "match": {
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1242000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 6,
+            "name": "I click on the start button on Support Calculator Page",
+            "match": {
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:25"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 614000000
+            }
+          },
+          {
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "field",
+                      "value"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Year of birth",
+                      "1992"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Recent Assessable Income (AI)",
+                      "$34,000 and below or No income"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Housing type",
+                      "3-room flat"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Property ownership",
+                      "Owned by me or household member"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Do you own more than 1 property?",
+                      "No"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "When ",
+            "line": 10,
+            "name": "I fill in the form with the following data:",
+            "match": {
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:30"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2504000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 17,
+            "name": "I click Show estimated benefits",
+            "match": {
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:39"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 253000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 18,
+            "name": "I should see a result for \"Assurance Package 2025\" that includes \"$600\"",
+            "match": {
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:49"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2128000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 8000000
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@positive",
+            "line": 8
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "verify-support-calculator-quantum-payouts;validate-required-fields",
+        "keyword": "Scenario",
+        "line": 27,
+        "name": "Validate required fields",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 138000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "I navigate to \"https://supportgowhere.life.gov.sg\"",
+            "match": {
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:16"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 980000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 5,
+            "name": "I click on the calculator button on HomePage",
+            "match": {
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1214000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 6,
+            "name": "I click on the start button on Support Calculator Page",
+            "match": {
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:25"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 596000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 28,
+            "name": "I click Show estimated benefits without filling any fields",
+            "match": {
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:44"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1601000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 29,
+            "name": "I should see required field error messages under all fields",
+            "match": {
+              "location": "src\\step-definitions\\supportCalculator.steps.ts:67"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 555000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 3000000
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@negative",
+            "line": 26
+          }
+        ],
         "type": "scenario"
       }
     ],

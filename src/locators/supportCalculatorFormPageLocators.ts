@@ -15,7 +15,14 @@ const supportCalculatorFormPageLocators = {
   // Dynamic option selector for dropdowns
   getDropdownOption: (value: string) => `//*[contains(@class,'react-select') and normalize-space()='${value}']`,
 
-  showBenefitsButton: 'text=Show estimated benefits'
+  showBenefitsButton: 'text=Show estimated benefits',
+
+  // Error messages
+  yearOfBirthError: "//*[@id='personalInfo.yearOfBirth-container']/ancestor::fieldset//*[text()='This is a required field.']",
+  assessableIncomeError: "//*[@id='personalInfo.assessableIncome-container']/ancestor::fieldset//*[text()='This is a required field.']",
+  housingTypeError: "//*[@id='property.typeOfPropertyOfResidence-container']/ancestor::fieldset//*[text()='This is a required field.']",
+  propertyOwnershipError: "//*[@id='property.ownsPropertyOfResidence-container']/ancestor::fieldset//*[text()='This is a required field.']",
+  multiplePropertyError: "//*[@name='property.ownsMoreThanOneProperty']/ancestor::fieldset//*[text()='This is a required field.']"
 };  
 export default supportCalculatorFormPageLocators;
   
