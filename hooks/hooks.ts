@@ -16,7 +16,7 @@ setDefaultTimeout(60 * 1000);
 BeforeAll(async function () {
   Logger.info('Starting browser...');
   browser = await chromium.launch({
-    headless: false,
+    headless: true,
     args: ['--start-maximized']
   });
 });
