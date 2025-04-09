@@ -37,25 +37,37 @@ jobs:
       # Step 6: Run Cucumber tests and capture results
       - name: Run Cucumber tests and capture results
         id: run-tests
-        
         run: |
+          # Run tests and save output
           npm run test > cucumber-output.txt
           
-          # Extract test results
-          SCENARIOS_PASSED=$(grep -oP '\d+(?= passed)' cucumber-output.txt || echo 0)
-          SCENARIOS_FAILED=$(grep -oP '\d+(?= failed)' cucumber-output.txt || echo 0)
+          # Print the output for debugging
+          echo "Test Output:"
+          cat cucumber-output.txt
           
-          # Default to 0 if no results are found
+          # Extract test results using more precise patterns
+          SCENARIOS_PASSED=$(grep -oP '\d+(?= passed)' cucumber-output.txt || echo "0")
+          SCENARIOS_FAILED=$(grep -oP '\d+(?= failed)' cucumber-output.txt || echo "0")
+          SCENARIOS_TOTAL=$(grep -oP '\d+(?= scenarios)' cucumber-output.txt || echo "0")
+          
+          # Set default values if extraction failed
           SCENARIOS_PASSED=${SCENARIOS_PASSED:-0}
           SCENARIOS_FAILED=${SCENARIOS_FAILED:-0}
+          SCENARIOS_TOTAL=${SCENARIOS_TOTAL:-0}
           
-          # Print results for debugging
-          echo "Scenarios Passed: $SCENARIOS_PASSED"
-          echo "Scenarios Failed: $SCENARIOS_FAILED"
+          # Calculate passed ratio
+          PASSED_RATIO="$SCENARIOS_PASSED/$SCENARIOS_TOTAL"
           
-          # Save results to GitHub environment variables
           echo "SCENARIOS_PASSED=$SCENARIOS_PASSED" >> $GITHUB_ENV
           echo "SCENARIOS_FAILED=$SCENARIOS_FAILED" >> $GITHUB_ENV
+          echo "SCENARIOS_TOTAL=$SCENARIOS_TOTAL" >> $GITHUB_ENV
+          echo "PASSED_RATIO=$PASSED_RATIO" >> $GITHUB_ENV
+          
+          echo "Test Results:"
+          echo "Total Scenarios: $SCENARIOS_TOTAL"
+          echo "Passed: $SCENARIOS_PASSED"
+          echo "Failed: $SCENARIOS_FAILED"
+          echo "Passed Ratio: $PASSED_RATIO"
         continue-on-error: true
 
       # Step 7: Generate HTML Report
@@ -86,22 +98,34 @@ jobs:
           TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
           SCENARIOS_PASSED: ${{ env.SCENARIOS_PASSED }}
           SCENARIOS_FAILED: ${{ env.SCENARIOS_FAILED }}
+          SCENARIOS_TOTAL: ${{ env.SCENARIOS_TOTAL }}
+          PASSED_RATIO: ${{ env.PASSED_RATIO }}
           ARTIFACT_URL: ${{ env.ARTIFACT_URL }}
           BRANCH_NAME: ${{ env.BRANCH_NAME }}
+          EVENT_TYPE: ${{ github.event_name }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
+          # Determine the title based on event type
+          if [ "$EVENT_TYPE" = "pull_request" ]; then
+            TITLE="🎯 SupportGoWhere E2E Test Results - PR #$PR_NUMBER"
+          else
+            TITLE="🎯 SupportGoWhere E2E Test Results - Push to $BRANCH_NAME"
+          fi
+
           curl -H "Content-Type: application/json" -d "{
           \"@type\": \"MessageCard\",
           \"@context\": \"http://schema.org/extensions\",
-          \"summary\": \"🎯 SupportGoWhere E2E Test Results\",
+          \"summary\": \"$TITLE\",
           \"themeColor\": \"0076D7\",
-          \"title\": \"🎯 SupportGoWhere E2E Test Results\",
+          \"title\": \"$TITLE\",
           \"sections\": [{
               \"activityTitle\": \"Branch: **$BRANCH_NAME**\",
               \"facts\": [
-                  {\"name\": \"✅ Passed:\", \"value\": \"<span style='color:green;'>$SCENARIOS_PASSED</span>\"},
+                  {\"name\": \"✅ Passed:\", \"value\": \"<span style='color:green;'>$PASSED_RATIO</span>\"},
                   {\"name\": \"❌ Failed:\", \"value\": \"<span style='color:red;'>$SCENARIOS_FAILED</span>\"},
                   {\"name\": \"📦 Report:\", \"value\": \"[View Report]($ARTIFACT_URL)\"},
-                  {\"name\": \"🕒 Time:\", \"value\": \"$(date -u +'%Y-%m-%d %H:%M:%S UTC')\"}
+                  {\"name\": \"🕒 Time:\", \"value\": \"$(date -u +'%Y-%m-%d %H:%M:%S UTC')\"},
+                  {\"name\": \"🔍 Event:\", \"value\": \"$EVENT_TYPE\"}
               ],
               \"markdown\": true
           }],
