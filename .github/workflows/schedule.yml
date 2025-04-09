@@ -42,8 +42,8 @@ jobs:
           npm run test > cucumber-output.txt
           
           # Extract test results
-          SCENARIOS_PASSED=$(grep -oP '(?<=\s)\d+(?=\s+passed)' cucumber-output.txt || echo 0)
-          SCENARIOS_FAILED=$(grep -oP '(?<=\s)\d+(?=\s+failed)' cucumber-output.txt || echo 0)
+          SCENARIOS_PASSED=$(grep -oP '\d+(?= passed)' cucumber-output.txt || echo 0)
+          SCENARIOS_FAILED=$(grep -oP '\d+(?= failed)' cucumber-output.txt || echo 0)
           
           # Default to 0 if no results are found
           SCENARIOS_PASSED=${SCENARIOS_PASSED:-0}
